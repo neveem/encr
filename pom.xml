@@ -7,8 +7,27 @@
     <groupId>com.neveem</groupId>
     <artifactId>newMaven</artifactId>
     <version>1.0</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <!-- http://mvnrepository.com/artifact/junit/junit -->
   <dependencies>
+
+      <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
+      <dependency>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.5.1</version>
+      </dependency>
 
       <dependency>
         <groupId>junit</groupId>
@@ -22,6 +41,14 @@
         <artifactId>mockito-all</artifactId>
         <version>1.9.5</version>
     </dependency>
+
+      <dependency>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok</artifactId>
+          <version>1.16.8</version>
+          <scope>provided</scope>
+      </dependency>
+
 
   </dependencies>
 </project>
