@@ -1,48 +1,45 @@
-/**
- * Created by nerianeveem on 19/05/2016.
- */
-import Algorithms.Algorithm;
-import Algorithms.CaesarAlgorithm;
+import Algorithms.MWOAlgorithm;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.mockito.Mock;
 
 import java.io.*;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+/**
+ * Created by nerianeveem on 05/08/2016.
+ */
+public class MWOAlgorithmUnitTest {
 
-public class CaesarAlgoritmUnitTest {
+
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
     @Rule
     public TemporaryFolder testFolder = new TemporaryFolder();
     File file;
-    CaesarAlgorithm ca;
-    String fileContent="asdfs";
+    MWOAlgorithm ca;
+    String fileContent="aaa";
     String tempFilePath;
     @Before
     public void create() throws IOException {
         System.setOut(new PrintStream(outContent)); //all system.out go to outContent buffer
         file = testFolder.newFile("test.txt"); //create a temp file
-        testFolder.newFolder("encrypted");
-        testFolder.newFolder("decrypted");
         BufferedWriter bw = new BufferedWriter(new FileWriter(file));
         bw.write(fileContent);
+        testFolder.newFolder("encrypted");
+        testFolder.newFolder("decrypted");
         bw.close();
-        ca = new CaesarAlgorithm(new FileInputStream(file),file.getPath());
+        ca = new MWOAlgorithm(new FileInputStream(file),file.getPath());
     }
 
     @Test
     public void testEncryptionFile() throws IOException {
-    //    ca.setKey((byte)1);
-   //     ca.setKeyChanged(true);
+        ca.setKey((byte)3);
+        ca.setKeyChanged(true);
         boolean result = ca.encryption();
         tempFilePath = file.getPath().substring(0,file.getPath().lastIndexOf('\\'));
         testDecryptionFile();
@@ -53,7 +50,7 @@ public class CaesarAlgoritmUnitTest {
     public void testDecryptionFile() throws IOException {
         File f = new File(tempFilePath+"\\encrypted\\test.encrypted");
         byte key = ca.getKey();
-        ca=new CaesarAlgorithm(new FileInputStream(f),ca.getDirectoryPath()+"\\encrypted\\test.encrypted");
+        ca=new MWOAlgorithm(new FileInputStream(f),ca.getDirectoryPath()+"\\encrypted\\test.encrypted");
         ca.setKey(key);
         ca.setFileExtension(".txt");
         boolean result = ca.decryption();
@@ -63,7 +60,7 @@ public class CaesarAlgoritmUnitTest {
     public void testPrintFile() throws IOException {
         String s = tempFilePath+"\\decrypted\\test_decrypted.txt";
         File f = new File(s);
-        ca = new CaesarAlgorithm(new FileInputStream(f),s);
+        ca = new MWOAlgorithm(new FileInputStream(f),s);
         ca.printFile();
         assertEquals("start enc.\r\nstart dec.\r\nencryption end\r\n"+fileContent+"\r\n", outContent.toString());
     }
@@ -72,5 +69,6 @@ public class CaesarAlgoritmUnitTest {
     public void cleanUpStreams() {
         System.setOut(null);
     }
+
 
 }
